@@ -58,7 +58,7 @@ public class QuicksortInsertion {
 	public static void insertion(int[] a, int left, int right) {
 		int j;
 		int pivot;
-		int n = right;//a.length;
+		int n = right+1;
 		
 		for (int i = left+1 /*1*/; i < n; i++) {
 			pivot = a[i];
