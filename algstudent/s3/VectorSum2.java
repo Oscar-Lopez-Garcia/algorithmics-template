@@ -15,7 +15,7 @@ public class VectorSum2 {
 		int sum = 0;
 		long t1,t2;
 		
-		for(int n=3; n<= 100000; n*=2) { // n is incremented by *2  
+		for(int n=1000; n<= 100000; n*=2) { // n is incremented by *2  
 			v = new int[n];
 			VectorSum1.fillIn(v);
 			  

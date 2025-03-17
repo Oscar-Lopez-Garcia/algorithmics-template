@@ -6,15 +6,15 @@ package algstudent.s3;
  * In this case => the stack overflows 
  */
 public class Subtraction4 {
-	public static long rec2(int n) {
+	public static long rec4(int n) {
 		int cont = 0;
 		if (n <= 0)
 			cont++;
 		else {
 			for (int i = 0; i < n; i++)
 				for(int j=0;j<n;j++)
-					cont++; // O(n)
-			rec2(n - 1);
+					cont++; // O(n^2)
+			rec4(n - 1);
 		}
 		return cont;
 	}
@@ -24,7 +24,7 @@ public class Subtraction4 {
 		for (int n = 100; n <= 100000; n *= 2) {
 			t1 = System.currentTimeMillis();
 
-			cont = rec2(n);
+			cont = rec4(n);
 
 			t2 = System.currentTimeMillis();
 
