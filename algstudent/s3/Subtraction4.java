@@ -7,7 +7,11 @@ package algstudent.s3;
  */
 public class Subtraction4 {
 	public static long rec4(int n) {
+<<<<<<< HEAD
 		long cont = 0;
+=======
+		int cont = 0;
+>>>>>>> 88b84ac2fb0498880d8fe70b0faccf28567835c0
 		if (n <= 0)
 			cont++;
 		else {
@@ -23,7 +27,11 @@ public class Subtraction4 {
 		long t1, t2, cont = 0;
 		for (int n = 100; n <= 100000; n *= 2) {
 			t1 = System.currentTimeMillis();
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> 88b84ac2fb0498880d8fe70b0faccf28567835c0
 			cont = rec4(n);
 
 			t2 = System.currentTimeMillis();
