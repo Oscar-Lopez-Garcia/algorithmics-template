@@ -14,7 +14,7 @@ public class Division1 {
 	  { for (int i=1;i<n;i++) cont++ ;  //O(n)    
 	    rec1(n/3);
 	  }
-	 return cont;   
+	 return cont;    
 	}
 	
 	public static void main (String arg []) 

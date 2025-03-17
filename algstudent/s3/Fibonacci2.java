@@ -15,7 +15,7 @@ public class Fibonacci2 {
 		long t1,t2;
 		int solution=0;
 		
-		for (int n=10; n<60; n++) {  //from n = 10 to n = 60   
+		for (int n=10; n<60; n+=10) {  //from n = 10 to n = 60   
 			  if (option==1) { //fib1    
 				    t1= System.currentTimeMillis();
 				  
