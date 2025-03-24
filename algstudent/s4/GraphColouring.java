@@ -13,50 +13,54 @@ public class GraphColouring {
 	public static Map<String, String> greedy(Map<String, List<String>> graph) {
 		Map<String,String> solution = new HashMap<String,String>();
 		
-		List<String> used= new ArrayList<>();
-		
-		List<String> visited = new ArrayList<>();
-		
 		for(String s:graph.keySet())
 			solution.put(s, colours[0]);
 		
-		used.add("red");
+		List<String> nodes = sortNodes(graph);
 		
-		for(int i=0;i<solution.size();i++) {
-			String node = selectNextNode(graph,visited);
+		for(String node:nodes) {
 			
-			String[] aux = new String[graph.get(node).size()];
+			String[] neighbour = new String[graph.get(node).size()];
+			List<String> used= new ArrayList<>();
 			
 			for(int j=0;j<graph.get(node).size();j++) {
-				aux[j]=String.valueOf(graph.get(node).get(j));
+				neighbour[j]=String.valueOf(graph.get(node).get(j));
 			}
 			
-			for(String s:aux)
-				if(solution.get(s).equals(solution.get(node))) 
-					solution.put(s, selectColourDifferentFrom(solution.get(node),used));
-			used.add(solution.get(node));
+			for(String s:neighbour)
+				used.add(solution.get(s));
+			
+			for (String colour : colours) {
+                if (!used.contains(colour)) {
+                    solution.put(node, colour);
+                    break;
+                }
+            }
 		}
 		return solution;
 	}
 
-	private static String selectNextNode(Map<String, List<String>> graph, List<String> visited) {
-		int max = 0;
-		String key = null;
-		for(String s:graph.keySet())
-			if(graph.get(s).size()>max && !visited.contains(s)) {
-				max = graph.get(s).size();
-				key=s;
-			}
-		visited.add(key);
-		return key;
+	private static List<String> sortNodes(Map<String, List<String>> graph) {
+		 List<String> nodes = new ArrayList<>(graph.keySet());
+	     List<String> sortedNodes = new ArrayList<>();
+
+	     while (!nodes.isEmpty()) {
+	         String maxNode = nodes.get(0);
+	         int maxDegree = graph.get(maxNode).size();
+
+	         for (String node : nodes) {
+	             if (graph.get(node).size() > maxDegree) {
+	                 maxNode = node;
+	                 maxDegree = graph.get(node).size();
+	             }
+	         }
+
+	         sortedNodes.add(maxNode);
+	         nodes.remove(maxNode);
+	     }
+
+	     return sortedNodes;
 	}
 
-	private static String selectColourDifferentFrom(String colour, List<String> used) {
-		for(String s: colours) {
-			if(s!=colour && !used.contains(s))
-				return s;
-		}
-		return null;
-	}
 
 }
