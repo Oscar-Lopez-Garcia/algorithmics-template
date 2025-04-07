@@ -1,5 +1,7 @@
 package s6;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class NullPath {
@@ -7,12 +9,13 @@ public class NullPath {
 	private static final int MIN_WEIGHT = 10;
 	private static final int MAX_WEIGHT = 99;
 	private static final int TOLERANCE = 99;
+	private boolean found = false;
+	private List<Integer> nullPath;
 	private static int[][] weights;
 	private static boolean[] visited;
 	private static int[] nodes;
 	
-	public static void main(String arg[]) {
-		int n = 50;
+	public NullPath(int n) {
 		int origin = 0;
 		int end = n-1;
 		visited = new boolean[n];
@@ -24,67 +27,42 @@ public class NullPath {
 		findNullPath(origin, end);
 	}
 
-	private static void findNullPath(int origin, int end) {
-		int sum = 1;
+	private void findNullPath(int origin, int end) {
+		List<Integer> path = new ArrayList<>();
+		path.add(origin);
 		int cost = 0;
 		visited[origin] = true;
-		for(int i = 0;i<weights.length-1;i++) {
-			if(i!=origin && i!=end) {
-				visited[i]=true;
-				cost+=weights[origin][i];
-				int prev = nodes[i];
-				nodes[i]=sum;
-				sum++;
-				checkPath(i,end,cost,sum);
-				cost-=weights[origin][i];
-				sum--;
-				nodes[i]=prev;
-				visited[i]=false;
-			}
-		}
+		backtrack(origin,end,cost,path,visited);
+//		if (found) {
+//            System.out.println("NullPath found: " + nullPath);
+//        } else {
+//            System.out.println("No valid NullPath found.");
+//        }
 	}
 	
 
 
-	private static void checkPath(int current, int end, int cost,int sum) {
-		boolean finished = true;
-		for(int i=0;i<visited.length;i++) {
-			if(i!=end)
-				if(!visited[i]) {
-					finished=false;
-					break;
-				}
+	private void backtrack(int current, int end, int cost,List<Integer> path,boolean[] visited) {
+		if(found) {
+			return;
 		}
 		
-		if(finished) {
-			cost+=weights[current][end];
-			nodes[end]=sum;
-			if(cost<=TOLERANCE) {
-				System.out.println("SOLUTION FOUND");
-				int count =0;
-				for(int i=0;i<nodes.length;i++) {
-					if(nodes[i]==count) {
-						System.out.print(nodes[i]+" ");
-						count++;
-						continue;
-					}
-				}
-				System.exit(0);
+		if(current==end && path.size()==visited.length) {
+			if(cost<=TOLERANCE && cost>=-TOLERANCE) {
+				found = true;
+				nullPath = List.copyOf(path);
+//				System.out.println("SOLUTION FOUND");
 			}
 		}
 		
-			for(int i=0;i<visited.length;i++) {
-				if(!visited[i]) {
-					visited[i]=true;
-					cost+=weights[current][i];
-					int prev = nodes[i];
-					nodes[i]=sum;
-					sum++;
-					checkPath(i,end,cost,sum);
-					cost-=weights[current][i];
-					sum--;
-					nodes[i]=prev;
-					visited[i]=false;
+		for(int i=0;i<visited.length;i++) {
+			if(!visited[i]) {
+				visited[i]=true;
+				path.add(i);
+				int sum = cost+weights[current][i];
+				backtrack(i,end, sum,path,visited);
+				path.remove(path.size()-1);
+				visited[i]=false;
 				}	
 			}
 		
